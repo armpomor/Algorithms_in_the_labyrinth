@@ -1,11 +1,11 @@
 from collections import deque
 from graph_cell import graph, Cell
-from config import *
+from config import COLORS, COLS, SIZE_CELL, ROWS, START
 import pygame as pg
 
 
 class BFS:
-    def __init__(self):
+    def __init__(self) -> None:
         self.screen = pg.display.set_mode([COLS * SIZE_CELL, ROWS * SIZE_CELL])
         self.graph = graph
         self.start = START
@@ -13,7 +13,7 @@ class BFS:
         self.visited = ({self.start: None})
         self.cur_node = self.start
 
-    def bfs(self):
+    def bfs(self) -> None:
 
         if self.queue:
             self.cur_node = self.queue.popleft()
@@ -25,15 +25,15 @@ class BFS:
                     self.visited[node] = self.cur_node
 
         # draw BFS work
-        [pg.draw.rect(self.screen, GREEN, Cell(x, y).rect) for x, y in self.visited]
-        [pg.draw.rect(self.screen, GRAY, Cell(x, y).rect) for x, y in self.queue]
+        [pg.draw.rect(self.screen, COLORS['GREEN'], Cell(x, y).rect) for x, y in self.visited]
+        [pg.draw.rect(self.screen, COLORS['GRAY'], Cell(x, y).rect) for x, y in self.queue]
 
         # draw path
         head = path = self.cur_node
         while path:
-            pg.draw.rect(self.screen, WHITE, Cell(*path).rect, border_radius=SIZE_CELL // 3)
+            pg.draw.rect(self.screen, COLORS['WHITE'], Cell(*path).rect, border_radius=SIZE_CELL // 3)
             path = self.visited[path]
 
         # draw start and head 
-        pg.draw.rect(self.screen, BLUE, Cell(*START), border_radius=SIZE_CELL // 3)
-        pg.draw.rect(self.screen, MAGENTA, Cell(*head), border_radius=SIZE_CELL // 3)
+        pg.draw.rect(self.screen, COLORS['BLUE'], Cell(*START), border_radius=SIZE_CELL // 3)
+        pg.draw.rect(self.screen, COLORS['MAGENTA'], Cell(*head), border_radius=SIZE_CELL // 3)

@@ -1,20 +1,21 @@
-import pygame as pg
-from config import *
-from graph_cell import Cell, Obstruction
-from bfs import BFS
-from dfs import DFS
-from lee import Lee
-from dijkstra import Dijkstra
-from A_star import A_star
-from button import Button
-
 """Программа Лабиринт демонстрирует действия следующих алгоритмов:
 BFS, DFS, LEE, Dijkstra, A*. Чем выше вес клетки, тем она темнее на сетке с весами.
 """
 
+import pygame as pg
+
+from a_star import AStar
+from bfs import BFS
+from button import Button
+from config import COLS, IMG, SIZE_CELL, ROWS, FPS, SIZE_FONT, SHIFT_BUTTON, COLORS
+from dfs import DFS
+from dijkstra import Dijkstra
+from graph_cell import Cell, Obstruction
+from lee import Lee
+
 
 class App:
-    def __init__(self):
+    def __init__(self) -> None:
         self.screen = pg.display.set_mode([COLS * SIZE_CELL, ROWS * SIZE_CELL])
         self.clock = pg.time.Clock()
         self.background = pg.image.load(f"{IMG}/image/Background.png").convert()
@@ -25,33 +26,42 @@ class App:
         self.dfs = DFS()
         self.lee = Lee()
         self.dijkstra = Dijkstra()
-        self.a_star = A_star()
+        self.a_star = AStar()
 
-    def draw(self):
-        pg.display.update()
-        self.clock.tick(FPS)
-        self.screen.fill(BLACK)
-
-    def exit(self):
+    @staticmethod
+    def exit() -> None:
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 exit()
 
-    def bfs_algorithim(self):
+    @staticmethod
+    def get_font() -> pg.font.Font:
+        return pg.font.Font(f'{IMG}/image/font_1.ttf', SIZE_FONT)
+
+    @staticmethod
+    def pos_button(index: int) -> tuple[int, int]:
+        return COLS * SIZE_CELL / 2, ROWS * 10 + SHIFT_BUTTON * index
+
+    def draw(self) -> None:
+        pg.display.update()
+        self.clock.tick(FPS)
+        self.screen.fill(COLORS['BLACK'])
+
+    def bfs_algorithim(self) -> None:
         while True:
             self.walls.draw(self.screen)
             self.bfs.bfs()
             self.draw()
             self.exit()
 
-    def dfs_algorithim(self):
+    def dfs_algorithim(self) -> None:
         while True:
             self.walls.draw(self.screen)
             self.dfs.dfs()
             self.draw()
             self.exit()
 
-    def lee_algorithim(self):
+    def lee_algorithim(self) -> None:
         while True:
             self.walls.draw(self.screen)
             self.lee.num_step()
@@ -59,27 +69,21 @@ class App:
             self.draw()
             self.exit()
 
-    def a_star_algorithim(self):
+    def a_star_algorithim(self) -> None:
         while True:
             self.cost.draw(self.screen)
             self.a_star.a_star()
             self.draw()
             self.exit()
 
-    def dijkstra_algorithim(self):
+    def dijkstra_algorithim(self) -> None:
         while True:
             self.cost.draw(self.screen)
             self.dijkstra.dijkstra()
             self.draw()
             self.exit()
 
-    def get_font(self):
-        return pg.font.Font(f'{IMG}/image/font_1.ttf', SIZE_FONT)
-
-    def pos_button(self, index):
-        return COLS * SIZE_CELL / 2, ROWS * 10 + SHIFT_BUTTON * index
-
-    def main_menu(self):
+    def main_menu(self) -> None:
         pg.display.set_caption('Graph Algorithms')
         while True:
             self.screen.blit(self.background, (0, 0))
@@ -87,16 +91,20 @@ class App:
             mouse_pos = pg.mouse.get_pos()
 
             bfs_button = Button(image=pg.image.load(f'{IMG}/image/0.png'), pos=self.pos_button(0),
-                                text_input='BFS', font=self.get_font(), base_color=BROWN, hovering_color=WHITE)
+                                text_input='BFS', font=self.get_font(), base_color=COLORS['BROWN'],
+                                hovering_color=COLORS['WHITE'])
             dfs_button = Button(image=pg.image.load(f'{IMG}/image/0.png'), pos=self.pos_button(1),
-                                text_input='DFS', font=self.get_font(), base_color=BROWN, hovering_color=WHITE)
+                                text_input='DFS', font=self.get_font(), base_color=COLORS['BROWN'],
+                                hovering_color=COLORS['WHITE'])
             lee_button = Button(image=pg.image.load(f'{IMG}/image/0.png'), pos=self.pos_button(2),
-                                text_input='Lee', font=self.get_font(), base_color=BROWN, hovering_color=WHITE)
+                                text_input='Lee', font=self.get_font(), base_color=COLORS['BROWN'],
+                                hovering_color=COLORS['WHITE'])
             a_star_button = Button(image=pg.image.load(f'{IMG}/image/0.png'), pos=self.pos_button(3),
-                                   text_input='A*', font=self.get_font(), base_color=BROWN, hovering_color=WHITE)
+                                   text_input='A*', font=self.get_font(), base_color=COLORS['BROWN'],
+                                   hovering_color=COLORS['WHITE'])
             dijkstra_button = Button(image=pg.image.load(f'{IMG}/image/0.png'), pos=self.pos_button(4),
-                                     text_input='Dijkstra', font=self.get_font(), base_color=BROWN,
-                                     hovering_color=WHITE)
+                                     text_input='Dijkstra', font=self.get_font(), base_color=COLORS['BROWN'],
+                                     hovering_color=COLORS['WHITE'])
 
             for button in [bfs_button, dfs_button, lee_button, a_star_button, dijkstra_button]:
                 button.change_color(mouse_pos)

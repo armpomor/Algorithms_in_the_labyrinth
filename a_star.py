@@ -1,11 +1,13 @@
-from config import *
+from heapq import heappush, heappop
+
 import pygame as pg
+
+from config import COLS, SIZE_CELL, ROWS, START, GOAL, COLORS
 from graph_cell import Cell, graph_cost
-from heapq import *
 
 
-class A_star:
-    def __init__(self):
+class AStar:
+    def __init__(self) -> None:
         self.screen = pg.display.set_mode([COLS * SIZE_CELL, ROWS * SIZE_CELL])
         self.graph = graph_cost
         self.queue = []
@@ -14,16 +16,17 @@ class A_star:
         heappush(self.queue, (0, START))
         self.cur_node = None
 
-    def heuristic(self, x, y):
+    @staticmethod
+    def heuristic(x: tuple[int, int], y: tuple[int, int]) -> int:
         return abs((x[0] - y[0]) + abs(x[1] - y[1]))
 
-    def a_star(self):
+    def a_star(self) -> None:
         # draw work
-        [pg.draw.circle(self.screen, GREEN, Cell(x, y).circle, Cell().radius) for x, y in self.visited]
-        [pg.draw.circle(self.screen, ORANGE, Cell(*xy).circle, Cell().radius) for _, xy in self.queue]
+        [pg.draw.circle(self.screen, COLORS['GREEN'], Cell(x, y).circle, Cell().radius) for x, y in self.visited]
+        [pg.draw.circle(self.screen, COLORS['ORANGE'], Cell(*xy).circle, Cell().radius) for _, xy in self.queue]
 
         # finish
-        pg.draw.rect(self.screen, PURPLE, Cell(*GOAL).rect, border_radius=SIZE_CELL // 3)
+        pg.draw.rect(self.screen, COLORS['PURPLE'], Cell(*GOAL).rect, border_radius=SIZE_CELL // 3)
         # logic
         if self.queue:
             cur_cost, self.cur_node = heappop(self.queue)
@@ -45,9 +48,9 @@ class A_star:
         # draw path
         head, path = self.cur_node, self.cur_node
         while path:
-            pg.draw.circle(self.screen, BROWN, Cell(*path).circle, Cell().radius)
+            pg.draw.circle(self.screen, COLORS['BROWN'], Cell(*path).circle, Cell().radius)
             path = self.visited[path]
 
         # draw start and head 
-        pg.draw.rect(self.screen, BLUE, Cell(*START), border_radius=SIZE_CELL // 3)
-        pg.draw.circle(self.screen, MAGENTA, Cell(*head).circle, Cell().radius2)
+        pg.draw.rect(self.screen, COLORS['BLUE'], Cell(*START), border_radius=SIZE_CELL // 3)
+        pg.draw.circle(self.screen, COLORS['MAGENTA'], Cell(*head).circle, Cell().radius2)
