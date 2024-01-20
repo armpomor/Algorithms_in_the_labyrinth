@@ -47,21 +47,21 @@ class App:
         self.clock.tick(FPS)
         self.screen.fill(COLORS['BLACK'])
 
-    def bfs_algorithim(self) -> None:
+    def bfs_algorithm(self) -> None:
         while True:
             self.walls.draw(self.screen)
             self.bfs.bfs()
             self.draw()
             self.exit()
 
-    def dfs_algorithim(self) -> None:
+    def dfs_algorithm(self) -> None:
         while True:
             self.walls.draw(self.screen)
             self.dfs.dfs()
             self.draw()
             self.exit()
 
-    def lee_algorithim(self) -> None:
+    def lee_algorithm(self) -> None:
         while True:
             self.walls.draw(self.screen)
             self.lee.num_step()
@@ -69,14 +69,14 @@ class App:
             self.draw()
             self.exit()
 
-    def a_star_algorithim(self) -> None:
+    def a_star_algorithm(self) -> None:
         while True:
             self.cost.draw(self.screen)
             self.a_star.a_star()
             self.draw()
             self.exit()
 
-    def dijkstra_algorithim(self) -> None:
+    def dijkstra_algorithm(self) -> None:
         while True:
             self.cost.draw(self.screen)
             self.dijkstra.dijkstra()
@@ -115,15 +115,15 @@ class App:
                     exit()
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if bfs_button.check_for_input(mouse_pos):
-                        self.bfs_algorithim()
+                        self.bfs_algorithm()
                     if dfs_button.check_for_input(mouse_pos):
-                        self.dfs_algorithim()
+                        self.dfs_algorithm()
                     if lee_button.check_for_input(mouse_pos):
-                        self.lee_algorithim()
+                        self.lee_algorithm()
                     if a_star_button.check_for_input(mouse_pos):
-                        self.a_star_algorithim()
+                        self.a_star_algorithm()
                     if dijkstra_button.check_for_input(mouse_pos):
-                        self.dijkstra_algorithim()
+                        self.dijkstra_algorithm()
 
             self.draw()
 

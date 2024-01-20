@@ -1,7 +1,9 @@
 from collections import deque
-from graph_cell import graph, Cell
-from config import COLORS, COLS, SIZE_CELL, ROWS, START
+
 import pygame as pg
+
+from config import COLORS, COLS, SIZE_CELL, ROWS, START
+from graph_cell import graph, Cell
 
 
 class BFS:

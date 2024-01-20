@@ -17,9 +17,6 @@ COLORS = {
     'BROWN': 'brown',
     'BLACK': 'black'
 }
-WHITE, ORANGE, GREEN, GRAY, BLUE, MAGENTA, PURPLE, BROWN, BLACK = ['white', 'darkorange', 'forestgreen', \
-                                                                   'darkslategray', 'blue', 'magenta', 'purple',
-                                                                   'brown', 'black']
 
 COLOR_COST = {0: (255, 255, 255), 1: (190, 190, 190), 2: (127, 127, 127), 3: (63, 63, 63), 4: (0, 0, 0)}
 
