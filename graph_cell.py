@@ -1,8 +1,11 @@
+import logging
 from random import random, randrange
 
 import pygame as pg
 
 from config import COLS, ROWS, START, GOAL, SIZE_CELL, COLORS, COLOR_COST, IMG, N
+
+logger = logging.getLogger(__name__)
 
 
 class Graph:
@@ -33,7 +36,7 @@ class Graph:
         self.grid_cost = [[randrange(0, 5) for col in range(self.cols)] for row in range(self.rows)]
         return self.grid_cost
 
-    def add_edges(self) -> dict:
+    def add_edges(self) -> dict[tuple[int, int], list[tuple[int, int]]]:
         """
         Добавляем ребра для лабиринта со стенами
         """
@@ -41,15 +44,18 @@ class Graph:
             for x, col in enumerate(row):
                 if not col:
                     self.graph[(x, y)] = self.graph.get((x, y), []) + self.neighbours(x, y)[0]
+        logger.debug(self.graph)  ########################################################################
+
         return self.graph
 
-    def add_edges_cost(self) -> dict:
+    def add_edges_cost(self) -> dict[tuple[int, int], list[tuple[int, tuple[int, int]]]]:
         """
         Добавляем ребра для лабиринта с весами
         """
         for y, row in enumerate(self.grid_cost):
             for x, col in enumerate(row):
                 self.graph_cost[(x, y)] = self.graph_cost.get((x, y), []) + self.neighbours(x, y)[1]
+        logger.debug(self.graph_cost)  ########################################################################
         return self.graph_cost
 
     def neighbours(self, x: int, y: int) -> tuple[list[tuple[int, int]], list[tuple[int, tuple[int, int]]]]:

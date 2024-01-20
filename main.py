@@ -2,7 +2,10 @@
 BFS, DFS, LEE, Dijkstra, A*. Чем выше вес клетки, тем она темнее на сетке с весами.
 """
 
+import logging.config
+
 import pygame as pg
+import yaml
 
 from a_star import AStar
 from bfs import BFS
@@ -12,6 +15,12 @@ from dfs import DFS
 from dijkstra import Dijkstra
 from graph_cell import Cell, Obstruction
 from lee import Lee
+
+with open('logging_config.yaml', 'rt') as f:
+    config = yaml.safe_load(f.read())
+logging.config.dictConfig(config)
+
+logger = logging.getLogger('main')
 
 
 class App:
@@ -32,6 +41,7 @@ class App:
     def exit() -> None:
         for event in pg.event.get():
             if event.type == pg.QUIT:
+                logger.info("Exit event")  #############################################
                 exit()
 
     @staticmethod
@@ -89,6 +99,7 @@ class App:
             self.screen.blit(self.background, (0, 0))
 
             mouse_pos = pg.mouse.get_pos()
+            logger.debug(mouse_pos)  #######################################
 
             bfs_button = Button(image=pg.image.load(f'{IMG}/image/0.png'), pos=self.pos_button(0),
                                 text_input='BFS', font=self.get_font(), base_color=COLORS['BROWN'],

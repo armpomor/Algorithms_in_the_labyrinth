@@ -1,9 +1,12 @@
+import logging
 from collections import deque
 
 import pygame as pg
 
 from config import COLORS, COLS, SIZE_CELL, ROWS, START
 from graph_cell import graph, Cell
+
+logger = logging.getLogger(__name__)
 
 
 class BFS:
@@ -35,6 +38,7 @@ class BFS:
         while path:
             pg.draw.rect(self.screen, COLORS['WHITE'], Cell(*path).rect, border_radius=SIZE_CELL // 3)
             path = self.visited[path]
+            logger.debug(path)  ############################################################################
 
         # draw start and head 
         pg.draw.rect(self.screen, COLORS['BLUE'], Cell(*START), border_radius=SIZE_CELL // 3)
